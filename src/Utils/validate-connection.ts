@@ -1,6 +1,6 @@
 import { Boom } from '@hapi/boom'
 import { createHash } from 'crypto'
-import { proto } from '../../WAProto'
+import proto from '../../WAProto'
 import { KEY_BUNDLE_TYPE } from '../Defaults'
 import type { AuthenticationCreds, SignalCreds, SocketConfig } from '../Types'
 import { BinaryNode, getBinaryNodeChild, jidDecode, S_WHATSAPP_NET } from '../WABinary'
@@ -8,12 +8,12 @@ import { Curve, hmacSign } from './crypto'
 import { encodeBigEndian } from './generics'
 import { createSignalIdentity } from './signal'
 
-const getUserAgent = (config: SocketConfig): proto.ClientPayload.IUserAgent => {
+const getUserAgent = (config: SocketConfig): proto.WAWa6.ClientPayload.IUserAgent => {
 	const osVersion = config.mobile ? '15.3.1' : '0.1'
 	const version = config.mobile ? [2, 22, 24] : config.version
 	const device = config.mobile ? 'iPhone_7' : 'Desktop'
 	const manufacturer = config.mobile ? 'Apple' : ''
-	const platform = config.mobile ? proto.ClientPayload.UserAgent.Platform.IOS : proto.ClientPayload.UserAgent.Platform.MACOS
+	const platform = config.mobile ? proto.WAWa6.ClientPayload.UserAgent.Platform.IOS : proto.WAWa6.ClientPayload.UserAgent.Platform.MACOS
 	const phoneId = config.mobile ? { phoneId: config.auth.creds.phoneId } : {}
 
 	return {
@@ -23,7 +23,7 @@ const getUserAgent = (config: SocketConfig): proto.ClientPayload.IUserAgent => {
 			tertiary: version[2],
 		},
 		platform,
-		releaseChannel: proto.ClientPayload.UserAgent.ReleaseChannel.RELEASE,
+		releaseChannel: proto.WAWa6.ClientPayload.UserAgent.ReleaseChannel.RELEASE,
 		mcc: config.auth.creds.registration?.phoneNumberMobileCountryCode || '000',
 		mnc: config.auth.creds.registration?.phoneNumberMobileNetworkCode || '000',
 		osVersion: osVersion,
@@ -37,21 +37,21 @@ const getUserAgent = (config: SocketConfig): proto.ClientPayload.IUserAgent => {
 }
 
 const getClientPayload = (config: SocketConfig) => {
-	const payload: proto.IClientPayload = {
-		connectType: proto.ClientPayload.ConnectType.WIFI_UNKNOWN,
-		connectReason: proto.ClientPayload.ConnectReason.USER_ACTIVATED,
+	const payload: proto.WAWa6.IClientPayload = {
+		connectType: proto.WAWa6.ClientPayload.ConnectType.WIFI_UNKNOWN,
+		connectReason: proto.WAWa6.ClientPayload.ConnectReason.USER_ACTIVATED,
 		userAgent: getUserAgent(config),
 	}
 
 	return payload
 }
 
-export const generateMobileNode = (config: SocketConfig): proto.IClientPayload => {
+export const generateMobileNode = (config: SocketConfig): proto.WAWa6.IClientPayload => {
 	if(!config.auth.creds) {
 		throw new Boom('No registration data found', { data: config })
 	}
 
-	const payload: proto.IClientPayload = {
+	const payload: proto.WAWa6.IClientPayload = {
 		...getClientPayload(config),
 		sessionId: Math.floor(Math.random() * 999999999 + 1),
 		shortConnect: true,
@@ -59,29 +59,29 @@ export const generateMobileNode = (config: SocketConfig): proto.IClientPayload =
 		device: 0,
 		dnsSource: {
 			appCached: false,
-			dnsMethod: proto.ClientPayload.DNSSource.DNSResolutionMethod.SYSTEM,
+			dnsMethod: proto.WAWa6.ClientPayload.DNSSource.DNSResolutionMethod.SYSTEM,
 		},
 		passive: false, // XMPP heartbeat setting (false: server actively pings) (true: client actively pings)
 		pushName: 'test',
 		username: Number(`${config.auth.creds.registration.phoneNumberCountryCode}${config.auth.creds.registration.phoneNumberNationalNumber}`),
 	}
-	return proto.ClientPayload.fromObject(payload)
+	return proto.WAWa6.ClientPayload.fromObject(payload)
 }
 
-export const generateLoginNode = (userJid: string, config: SocketConfig): proto.IClientPayload => {
+export const generateLoginNode = (userJid: string, config: SocketConfig): proto.WAWa6.IClientPayload => {
 	const { user, device } = jidDecode(userJid)!
-	const payload: proto.IClientPayload = {
+	const payload: proto.WAWa6.IClientPayload = {
 		...getClientPayload(config),
 		passive: true,
 		username: +user,
 		device: device,
 	}
-	return proto.ClientPayload.fromObject(payload)
+	return proto.WAWa6.ClientPayload.fromObject(payload)
 }
 
-const getPlatformType = (platform: string): proto.DeviceProps.PlatformType => {
+const getPlatformType = (platform: string): proto.WACompanionReg.DeviceProps.PlatformType => {
 	const platformType = platform.toUpperCase()
-	return proto.DeviceProps.PlatformType[platformType] || proto.DeviceProps.PlatformType.DESKTOP
+	return proto.WACompanionReg.DeviceProps.PlatformType[platformType] || proto.WACompanionReg.DeviceProps.PlatformType.DESKTOP
 }
 
 export const generateRegistrationNode = (
@@ -94,15 +94,15 @@ export const generateRegistrationNode = (
 		.update(config.version.join('.')) // join as string
 		.digest()
 
-	const companion: proto.IDeviceProps = {
+	const companion: proto.WACompanionReg.IDeviceProps = {
 		os: config.browser[0],
 		platformType: getPlatformType(config.browser[1]),
 		requireFullSync: config.syncFullHistory,
 	}
 
-	const companionProto = proto.DeviceProps.encode(companion).finish()
+	const companionProto = proto.WACompanionReg.DeviceProps.encode(companion).finish()
 
-	const registerPayload: proto.IClientPayload = {
+	const registerPayload: proto.WAWa6.IClientPayload = {
 		...getClientPayload(config),
 		passive: false,
 		devicePairingData: {
@@ -117,7 +117,7 @@ export const generateRegistrationNode = (
 		},
 	}
 
-	return proto.ClientPayload.fromObject(registerPayload)
+	return proto.WAWa6.ClientPayload.fromObject(registerPayload)
 }
 
 export const configureSuccessfulPairing = (
@@ -140,14 +140,14 @@ export const configureSuccessfulPairing = (
 	const bizName = businessNode?.attrs.name
 	const jid = deviceNode.attrs.jid
 
-	const { details, hmac } = proto.ADVSignedDeviceIdentityHMAC.decode(deviceIdentityNode.content as Buffer)
+	const { details, hmac } = proto.WAAdv.ADVSignedDeviceIdentityHMAC.decode(deviceIdentityNode.content as Buffer)
 	// check HMAC matches
 	const advSign = hmacSign(details, Buffer.from(advSecretKey, 'base64'))
 	if(Buffer.compare(hmac, advSign) !== 0) {
 		throw new Boom('Invalid account signature')
 	}
 
-	const account = proto.ADVSignedDeviceIdentity.decode(details)
+	const account = proto.WAAdv.ADVSignedDeviceIdentity.decode(details)
 	const { accountSignatureKey, accountSignature, details: deviceDetails } = account
 	// verify the device signature matches
 	const accountMsg = Buffer.concat([ Buffer.from([6, 0]), deviceDetails, signedIdentityKey.public ])
@@ -162,7 +162,7 @@ export const configureSuccessfulPairing = (
 	const identity = createSignalIdentity(jid, accountSignatureKey)
 	const accountEnc = encodeSignedDeviceIdentity(account, false)
 
-	const deviceIdentity = proto.ADVDeviceIdentity.decode(account.details)
+	const deviceIdentity = proto.WAAdv.ADVDeviceIdentity.decode(account.details)
 
 	const reply: BinaryNode = {
 		tag: 'iq',
@@ -203,7 +203,7 @@ export const configureSuccessfulPairing = (
 }
 
 export const encodeSignedDeviceIdentity = (
-	account: proto.IADVSignedDeviceIdentity,
+	account: proto.WAAdv.IADVSignedDeviceIdentity,
 	includeSignatureKey: boolean
 ) => {
 	account = { ...account }
@@ -213,7 +213,7 @@ export const encodeSignedDeviceIdentity = (
 		account.accountSignatureKey = null
 	}
 
-	return proto.ADVSignedDeviceIdentity
+	return proto.WAAdv.ADVSignedDeviceIdentityHMAC
 		.encode(account)
 		.finish()
 }
