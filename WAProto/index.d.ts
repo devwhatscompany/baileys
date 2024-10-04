@@ -3135,6 +3135,366 @@ export namespace WAE2E {
             FULL_HISTORY_SYNC_ON_DEMAND = 6
         }
 
+        /** Properties of a StickerPackMessage. */
+        interface IStickerPackMessage {
+
+            /** StickerPackMessage stickerPackId */
+            stickerPackId?: (string|null);
+
+            /** StickerPackMessage name */
+            name?: (string|null);
+
+            /** StickerPackMessage publisher */
+            publisher?: (string|null);
+
+            /** StickerPackMessage stickers */
+            stickers?: (WAE2E.Message.StickerPackMessage.ISticker[]|null);
+
+            /** StickerPackMessage fileLength */
+            fileLength?: (number|Long|null);
+
+            /** StickerPackMessage fileSha256 */
+            fileSha256?: (Uint8Array|null);
+
+            /** StickerPackMessage fileEncSha256 */
+            fileEncSha256?: (Uint8Array|null);
+
+            /** StickerPackMessage mediaKey */
+            mediaKey?: (Uint8Array|null);
+
+            /** StickerPackMessage directPath */
+            directPath?: (string|null);
+
+            /** StickerPackMessage caption */
+            caption?: (string|null);
+
+            /** StickerPackMessage contextInfo */
+            contextInfo?: (WAE2E.IContextInfo|null);
+
+            /** StickerPackMessage packDescription */
+            packDescription?: (string|null);
+
+            /** StickerPackMessage mediaKeyTimestamp */
+            mediaKeyTimestamp?: (number|Long|null);
+
+            /** StickerPackMessage trayIconFileName */
+            trayIconFileName?: (string|null);
+
+            /** StickerPackMessage thumbnailDirectPath */
+            thumbnailDirectPath?: (string|null);
+
+            /** StickerPackMessage thumbnailSha256 */
+            thumbnailSha256?: (Uint8Array|null);
+
+            /** StickerPackMessage thumbnailEncSha256 */
+            thumbnailEncSha256?: (Uint8Array|null);
+
+            /** StickerPackMessage thumbnailHeight */
+            thumbnailHeight?: (number|null);
+
+            /** StickerPackMessage thumbnailWidth */
+            thumbnailWidth?: (number|null);
+
+            /** StickerPackMessage imageDataHash */
+            imageDataHash?: (string|null);
+
+            /** StickerPackMessage stickerPackSize */
+            stickerPackSize?: (number|Long|null);
+
+            /** StickerPackMessage stickerPackOrigin */
+            stickerPackOrigin?: (WAE2E.Message.StickerPackMessage.StickerPackOrigin|null);
+        }
+
+        /** Represents a StickerPackMessage. */
+        class StickerPackMessage implements IStickerPackMessage {
+
+            /**
+             * Constructs a new StickerPackMessage.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: WAE2E.Message.IStickerPackMessage);
+
+            /** StickerPackMessage stickerPackId. */
+            public stickerPackId: string;
+
+            /** StickerPackMessage name. */
+            public name: string;
+
+            /** StickerPackMessage publisher. */
+            public publisher: string;
+
+            /** StickerPackMessage stickers. */
+            public stickers: WAE2E.Message.StickerPackMessage.ISticker[];
+
+            /** StickerPackMessage fileLength. */
+            public fileLength: (number|Long);
+
+            /** StickerPackMessage fileSha256. */
+            public fileSha256: Uint8Array;
+
+            /** StickerPackMessage fileEncSha256. */
+            public fileEncSha256: Uint8Array;
+
+            /** StickerPackMessage mediaKey. */
+            public mediaKey: Uint8Array;
+
+            /** StickerPackMessage directPath. */
+            public directPath: string;
+
+            /** StickerPackMessage caption. */
+            public caption: string;
+
+            /** StickerPackMessage contextInfo. */
+            public contextInfo?: (WAE2E.IContextInfo|null);
+
+            /** StickerPackMessage packDescription. */
+            public packDescription: string;
+
+            /** StickerPackMessage mediaKeyTimestamp. */
+            public mediaKeyTimestamp: (number|Long);
+
+            /** StickerPackMessage trayIconFileName. */
+            public trayIconFileName: string;
+
+            /** StickerPackMessage thumbnailDirectPath. */
+            public thumbnailDirectPath: string;
+
+            /** StickerPackMessage thumbnailSha256. */
+            public thumbnailSha256: Uint8Array;
+
+            /** StickerPackMessage thumbnailEncSha256. */
+            public thumbnailEncSha256: Uint8Array;
+
+            /** StickerPackMessage thumbnailHeight. */
+            public thumbnailHeight: number;
+
+            /** StickerPackMessage thumbnailWidth. */
+            public thumbnailWidth: number;
+
+            /** StickerPackMessage imageDataHash. */
+            public imageDataHash: string;
+
+            /** StickerPackMessage stickerPackSize. */
+            public stickerPackSize: (number|Long);
+
+            /** StickerPackMessage stickerPackOrigin. */
+            public stickerPackOrigin: WAE2E.Message.StickerPackMessage.StickerPackOrigin;
+
+            /**
+             * Creates a new StickerPackMessage instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns StickerPackMessage instance
+             */
+            public static create(properties?: WAE2E.Message.IStickerPackMessage): WAE2E.Message.StickerPackMessage;
+
+            /**
+             * Encodes the specified StickerPackMessage message. Does not implicitly {@link WAE2E.Message.StickerPackMessage.verify|verify} messages.
+             * @param message StickerPackMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: WAE2E.Message.IStickerPackMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified StickerPackMessage message, length delimited. Does not implicitly {@link WAE2E.Message.StickerPackMessage.verify|verify} messages.
+             * @param message StickerPackMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: WAE2E.Message.IStickerPackMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a StickerPackMessage message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns StickerPackMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WAE2E.Message.StickerPackMessage;
+
+            /**
+             * Decodes a StickerPackMessage message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns StickerPackMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WAE2E.Message.StickerPackMessage;
+
+            /**
+             * Verifies a StickerPackMessage message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a StickerPackMessage message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns StickerPackMessage
+             */
+            public static fromObject(object: { [k: string]: any }): WAE2E.Message.StickerPackMessage;
+
+            /**
+             * Creates a plain object from a StickerPackMessage message. Also converts values to other types if specified.
+             * @param message StickerPackMessage
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: WAE2E.Message.StickerPackMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this StickerPackMessage to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for StickerPackMessage
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace StickerPackMessage {
+
+            /** StickerPackOrigin enum. */
+            enum StickerPackOrigin {
+                FIRST_PARTY = 0,
+                THIRD_PARTY = 1,
+                USER_CREATED = 2
+            }
+
+            /** Properties of a Sticker. */
+            interface ISticker {
+
+                /** Sticker fileName */
+                fileName?: (string|null);
+
+                /** Sticker isAnimated */
+                isAnimated?: (boolean|null);
+
+                /** Sticker emojis */
+                emojis?: (string[]|null);
+
+                /** Sticker accessibilityLabel */
+                accessibilityLabel?: (string|null);
+
+                /** Sticker isLottie */
+                isLottie?: (boolean|null);
+
+                /** Sticker mimetype */
+                mimetype?: (string|null);
+            }
+
+            /** Represents a Sticker. */
+            class Sticker implements ISticker {
+
+                /**
+                 * Constructs a new Sticker.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: WAE2E.Message.StickerPackMessage.ISticker);
+
+                /** Sticker fileName. */
+                public fileName: string;
+
+                /** Sticker isAnimated. */
+                public isAnimated: boolean;
+
+                /** Sticker emojis. */
+                public emojis: string[];
+
+                /** Sticker accessibilityLabel. */
+                public accessibilityLabel: string;
+
+                /** Sticker isLottie. */
+                public isLottie: boolean;
+
+                /** Sticker mimetype. */
+                public mimetype: string;
+
+                /**
+                 * Creates a new Sticker instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns Sticker instance
+                 */
+                public static create(properties?: WAE2E.Message.StickerPackMessage.ISticker): WAE2E.Message.StickerPackMessage.Sticker;
+
+                /**
+                 * Encodes the specified Sticker message. Does not implicitly {@link WAE2E.Message.StickerPackMessage.Sticker.verify|verify} messages.
+                 * @param message Sticker message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: WAE2E.Message.StickerPackMessage.ISticker, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified Sticker message, length delimited. Does not implicitly {@link WAE2E.Message.StickerPackMessage.Sticker.verify|verify} messages.
+                 * @param message Sticker message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: WAE2E.Message.StickerPackMessage.ISticker, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a Sticker message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns Sticker
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WAE2E.Message.StickerPackMessage.Sticker;
+
+                /**
+                 * Decodes a Sticker message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns Sticker
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WAE2E.Message.StickerPackMessage.Sticker;
+
+                /**
+                 * Verifies a Sticker message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a Sticker message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns Sticker
+                 */
+                public static fromObject(object: { [k: string]: any }): WAE2E.Message.StickerPackMessage.Sticker;
+
+                /**
+                 * Creates a plain object from a Sticker message. Also converts values to other types if specified.
+                 * @param message Sticker
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: WAE2E.Message.StickerPackMessage.Sticker, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this Sticker to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for Sticker
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+        }
+
         /** Properties of a PlaceholderMessage. */
         interface IPlaceholderMessage {
 
@@ -10550,7 +10910,8 @@ export namespace WAE2E {
                 VIDEO = 1,
                 PLACEHOLDER = 4,
                 IMAGE = 5,
-                PAYMENT_LINKS = 6
+                PAYMENT_LINKS = 6,
+                PROFILE = 7
             }
 
             /** FontType enum. */
@@ -11001,358 +11362,8 @@ export namespace WAE2E {
             }
         }
 
-        /** Properties of a StickerPackMessage. */
-        interface IStickerPackMessage {
-
-            /** StickerPackMessage stickerPackId */
-            stickerPackId?: (string|null);
-
-            /** StickerPackMessage name */
-            name?: (string|null);
-
-            /** StickerPackMessage publisher */
-            publisher?: (string|null);
-
-            /** StickerPackMessage stickers */
-            stickers?: (WAE2E.Message.StickerPackMessage.ISticker[]|null);
-
-            /** StickerPackMessage fileLength */
-            fileLength?: (number|Long|null);
-
-            /** StickerPackMessage fileSha256 */
-            fileSha256?: (Uint8Array|null);
-
-            /** StickerPackMessage fileEncSha256 */
-            fileEncSha256?: (Uint8Array|null);
-
-            /** StickerPackMessage mediaKey */
-            mediaKey?: (Uint8Array|null);
-
-            /** StickerPackMessage directPath */
-            directPath?: (string|null);
-
-            /** StickerPackMessage caption */
-            caption?: (string|null);
-
-            /** StickerPackMessage contextInfo */
-            contextInfo?: (WAE2E.IContextInfo|null);
-
-            /** StickerPackMessage packDescription */
-            packDescription?: (string|null);
-
-            /** StickerPackMessage mediaKeyTimestamp */
-            mediaKeyTimestamp?: (number|Long|null);
-
-            /** StickerPackMessage trayIconFileName */
-            trayIconFileName?: (string|null);
-
-            /** StickerPackMessage thumbnailDirectPath */
-            thumbnailDirectPath?: (string|null);
-
-            /** StickerPackMessage thumbnailSha256 */
-            thumbnailSha256?: (Uint8Array|null);
-
-            /** StickerPackMessage thumbnailEncSha256 */
-            thumbnailEncSha256?: (Uint8Array|null);
-
-            /** StickerPackMessage thumbnailHeight */
-            thumbnailHeight?: (number|null);
-
-            /** StickerPackMessage thumbnailWidth */
-            thumbnailWidth?: (number|null);
-
-            /** StickerPackMessage imageDataHash */
-            imageDataHash?: (string|null);
-
-            /** StickerPackMessage stickerPackSize */
-            stickerPackSize?: (number|Long|null);
-        }
-
-        /** Represents a StickerPackMessage. */
-        class StickerPackMessage implements IStickerPackMessage {
-
-            /**
-             * Constructs a new StickerPackMessage.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: WAE2E.Message.IStickerPackMessage);
-
-            /** StickerPackMessage stickerPackId. */
-            public stickerPackId: string;
-
-            /** StickerPackMessage name. */
-            public name: string;
-
-            /** StickerPackMessage publisher. */
-            public publisher: string;
-
-            /** StickerPackMessage stickers. */
-            public stickers: WAE2E.Message.StickerPackMessage.ISticker[];
-
-            /** StickerPackMessage fileLength. */
-            public fileLength: (number|Long);
-
-            /** StickerPackMessage fileSha256. */
-            public fileSha256: Uint8Array;
-
-            /** StickerPackMessage fileEncSha256. */
-            public fileEncSha256: Uint8Array;
-
-            /** StickerPackMessage mediaKey. */
-            public mediaKey: Uint8Array;
-
-            /** StickerPackMessage directPath. */
-            public directPath: string;
-
-            /** StickerPackMessage caption. */
-            public caption: string;
-
-            /** StickerPackMessage contextInfo. */
-            public contextInfo?: (WAE2E.IContextInfo|null);
-
-            /** StickerPackMessage packDescription. */
-            public packDescription: string;
-
-            /** StickerPackMessage mediaKeyTimestamp. */
-            public mediaKeyTimestamp: (number|Long);
-
-            /** StickerPackMessage trayIconFileName. */
-            public trayIconFileName: string;
-
-            /** StickerPackMessage thumbnailDirectPath. */
-            public thumbnailDirectPath: string;
-
-            /** StickerPackMessage thumbnailSha256. */
-            public thumbnailSha256: Uint8Array;
-
-            /** StickerPackMessage thumbnailEncSha256. */
-            public thumbnailEncSha256: Uint8Array;
-
-            /** StickerPackMessage thumbnailHeight. */
-            public thumbnailHeight: number;
-
-            /** StickerPackMessage thumbnailWidth. */
-            public thumbnailWidth: number;
-
-            /** StickerPackMessage imageDataHash. */
-            public imageDataHash: string;
-
-            /** StickerPackMessage stickerPackSize. */
-            public stickerPackSize: (number|Long);
-
-            /**
-             * Creates a new StickerPackMessage instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns StickerPackMessage instance
-             */
-            public static create(properties?: WAE2E.Message.IStickerPackMessage): WAE2E.Message.StickerPackMessage;
-
-            /**
-             * Encodes the specified StickerPackMessage message. Does not implicitly {@link WAE2E.Message.StickerPackMessage.verify|verify} messages.
-             * @param message StickerPackMessage message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: WAE2E.Message.IStickerPackMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified StickerPackMessage message, length delimited. Does not implicitly {@link WAE2E.Message.StickerPackMessage.verify|verify} messages.
-             * @param message StickerPackMessage message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: WAE2E.Message.IStickerPackMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a StickerPackMessage message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns StickerPackMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WAE2E.Message.StickerPackMessage;
-
-            /**
-             * Decodes a StickerPackMessage message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns StickerPackMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WAE2E.Message.StickerPackMessage;
-
-            /**
-             * Verifies a StickerPackMessage message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a StickerPackMessage message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns StickerPackMessage
-             */
-            public static fromObject(object: { [k: string]: any }): WAE2E.Message.StickerPackMessage;
-
-            /**
-             * Creates a plain object from a StickerPackMessage message. Also converts values to other types if specified.
-             * @param message StickerPackMessage
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: WAE2E.Message.StickerPackMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this StickerPackMessage to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the default type url for StickerPackMessage
-             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns The default type url
-             */
-            public static getTypeUrl(typeUrlPrefix?: string): string;
-        }
-
-        namespace StickerPackMessage {
-
-            /** Properties of a Sticker. */
-            interface ISticker {
-
-                /** Sticker fileName */
-                fileName?: (string|null);
-
-                /** Sticker isAnimated */
-                isAnimated?: (boolean|null);
-
-                /** Sticker emojis */
-                emojis?: (string[]|null);
-
-                /** Sticker accessibilityLabel */
-                accessibilityLabel?: (string|null);
-
-                /** Sticker isLottie */
-                isLottie?: (boolean|null);
-
-                /** Sticker mimetype */
-                mimetype?: (string|null);
-            }
-
-            /** Represents a Sticker. */
-            class Sticker implements ISticker {
-
-                /**
-                 * Constructs a new Sticker.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: WAE2E.Message.StickerPackMessage.ISticker);
-
-                /** Sticker fileName. */
-                public fileName: string;
-
-                /** Sticker isAnimated. */
-                public isAnimated: boolean;
-
-                /** Sticker emojis. */
-                public emojis: string[];
-
-                /** Sticker accessibilityLabel. */
-                public accessibilityLabel: string;
-
-                /** Sticker isLottie. */
-                public isLottie: boolean;
-
-                /** Sticker mimetype. */
-                public mimetype: string;
-
-                /**
-                 * Creates a new Sticker instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns Sticker instance
-                 */
-                public static create(properties?: WAE2E.Message.StickerPackMessage.ISticker): WAE2E.Message.StickerPackMessage.Sticker;
-
-                /**
-                 * Encodes the specified Sticker message. Does not implicitly {@link WAE2E.Message.StickerPackMessage.Sticker.verify|verify} messages.
-                 * @param message Sticker message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: WAE2E.Message.StickerPackMessage.ISticker, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified Sticker message, length delimited. Does not implicitly {@link WAE2E.Message.StickerPackMessage.Sticker.verify|verify} messages.
-                 * @param message Sticker message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: WAE2E.Message.StickerPackMessage.ISticker, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a Sticker message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns Sticker
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WAE2E.Message.StickerPackMessage.Sticker;
-
-                /**
-                 * Decodes a Sticker message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns Sticker
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WAE2E.Message.StickerPackMessage.Sticker;
-
-                /**
-                 * Verifies a Sticker message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a Sticker message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns Sticker
-                 */
-                public static fromObject(object: { [k: string]: any }): WAE2E.Message.StickerPackMessage.Sticker;
-
-                /**
-                 * Creates a plain object from a Sticker message. Also converts values to other types if specified.
-                 * @param message Sticker
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: WAE2E.Message.StickerPackMessage.Sticker, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this Sticker to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for Sticker
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-        }
-
         /** Properties of an AlbumMessage. */
         interface IAlbumMessage {
-
-            /** AlbumMessage caption */
-            caption?: (string|null);
 
             /** AlbumMessage expectedImageCount */
             expectedImageCount?: (number|null);
@@ -11372,9 +11383,6 @@ export namespace WAE2E {
              * @param [properties] Properties to set
              */
             constructor(properties?: WAE2E.Message.IAlbumMessage);
-
-            /** AlbumMessage caption. */
-            public caption: string;
 
             /** AlbumMessage expectedImageCount. */
             public expectedImageCount: number;
@@ -16078,6 +16086,9 @@ export namespace WAE2E {
 
                 /** HistorySyncOnDemandRequest oldestMsgTimestampMs */
                 oldestMsgTimestampMs?: (number|Long|null);
+
+                /** HistorySyncOnDemandRequest accountLid */
+                accountLid?: (string|null);
             }
 
             /** Represents a HistorySyncOnDemandRequest. */
@@ -16103,6 +16114,9 @@ export namespace WAE2E {
 
                 /** HistorySyncOnDemandRequest oldestMsgTimestampMs. */
                 public oldestMsgTimestampMs: (number|Long);
+
+                /** HistorySyncOnDemandRequest accountLid. */
+                public accountLid: string;
 
                 /**
                  * Creates a new HistorySyncOnDemandRequest instance using the specified properties.
@@ -18324,6 +18338,9 @@ export namespace WAE2E {
 
         /** ContextInfo ctwaPayload */
         ctwaPayload?: (Uint8Array|null);
+
+        /** ContextInfo forwardedAiBotMessageInfo */
+        forwardedAiBotMessageInfo?: (WAE2E.ContextInfo.IForwardedAIBotMessageInfo|null);
     }
 
     /** Represents a ContextInfo. */
@@ -18451,6 +18468,9 @@ export namespace WAE2E {
 
         /** ContextInfo ctwaPayload. */
         public ctwaPayload: Uint8Array;
+
+        /** ContextInfo forwardedAiBotMessageInfo. */
+        public forwardedAiBotMessageInfo?: (WAE2E.ContextInfo.IForwardedAIBotMessageInfo|null);
 
         /**
          * Creates a new ContextInfo instance using the specified properties.
@@ -18728,6 +18748,9 @@ export namespace WAE2E {
 
             /** ExternalAdReplyInfo disableNudge */
             disableNudge?: (boolean|null);
+
+            /** ExternalAdReplyInfo originalImageUrl */
+            originalImageUrl?: (string|null);
         }
 
         /** Represents an ExternalAdReplyInfo. */
@@ -18801,6 +18824,9 @@ export namespace WAE2E {
 
             /** ExternalAdReplyInfo disableNudge. */
             public disableNudge: boolean;
+
+            /** ExternalAdReplyInfo originalImageUrl. */
+            public originalImageUrl: string;
 
             /**
              * Creates a new ExternalAdReplyInfo instance using the specified properties.
@@ -19355,6 +19381,115 @@ export namespace WAE2E {
                  */
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
+        }
+
+        /** Properties of a ForwardedAIBotMessageInfo. */
+        interface IForwardedAIBotMessageInfo {
+
+            /** ForwardedAIBotMessageInfo botName */
+            botName?: (string|null);
+
+            /** ForwardedAIBotMessageInfo botJid */
+            botJid?: (string|null);
+
+            /** ForwardedAIBotMessageInfo creatorName */
+            creatorName?: (string|null);
+        }
+
+        /** Represents a ForwardedAIBotMessageInfo. */
+        class ForwardedAIBotMessageInfo implements IForwardedAIBotMessageInfo {
+
+            /**
+             * Constructs a new ForwardedAIBotMessageInfo.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: WAE2E.ContextInfo.IForwardedAIBotMessageInfo);
+
+            /** ForwardedAIBotMessageInfo botName. */
+            public botName: string;
+
+            /** ForwardedAIBotMessageInfo botJid. */
+            public botJid: string;
+
+            /** ForwardedAIBotMessageInfo creatorName. */
+            public creatorName: string;
+
+            /**
+             * Creates a new ForwardedAIBotMessageInfo instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ForwardedAIBotMessageInfo instance
+             */
+            public static create(properties?: WAE2E.ContextInfo.IForwardedAIBotMessageInfo): WAE2E.ContextInfo.ForwardedAIBotMessageInfo;
+
+            /**
+             * Encodes the specified ForwardedAIBotMessageInfo message. Does not implicitly {@link WAE2E.ContextInfo.ForwardedAIBotMessageInfo.verify|verify} messages.
+             * @param message ForwardedAIBotMessageInfo message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: WAE2E.ContextInfo.IForwardedAIBotMessageInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ForwardedAIBotMessageInfo message, length delimited. Does not implicitly {@link WAE2E.ContextInfo.ForwardedAIBotMessageInfo.verify|verify} messages.
+             * @param message ForwardedAIBotMessageInfo message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: WAE2E.ContextInfo.IForwardedAIBotMessageInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ForwardedAIBotMessageInfo message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ForwardedAIBotMessageInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WAE2E.ContextInfo.ForwardedAIBotMessageInfo;
+
+            /**
+             * Decodes a ForwardedAIBotMessageInfo message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ForwardedAIBotMessageInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WAE2E.ContextInfo.ForwardedAIBotMessageInfo;
+
+            /**
+             * Verifies a ForwardedAIBotMessageInfo message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ForwardedAIBotMessageInfo message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ForwardedAIBotMessageInfo
+             */
+            public static fromObject(object: { [k: string]: any }): WAE2E.ContextInfo.ForwardedAIBotMessageInfo;
+
+            /**
+             * Creates a plain object from a ForwardedAIBotMessageInfo message. Also converts values to other types if specified.
+             * @param message ForwardedAIBotMessageInfo
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: WAE2E.ContextInfo.ForwardedAIBotMessageInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ForwardedAIBotMessageInfo to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for ForwardedAIBotMessageInfo
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
         /** Properties of a UTMInfo. */
@@ -20240,6 +20375,115 @@ export namespace WAE2E {
         }
     }
 
+    /** Properties of a BotImagineMetadata. */
+    interface IBotImagineMetadata {
+
+        /** BotImagineMetadata imagineType */
+        imagineType?: (WAE2E.BotImagineMetadata.ImagineType|null);
+    }
+
+    /** Represents a BotImagineMetadata. */
+    class BotImagineMetadata implements IBotImagineMetadata {
+
+        /**
+         * Constructs a new BotImagineMetadata.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: WAE2E.IBotImagineMetadata);
+
+        /** BotImagineMetadata imagineType. */
+        public imagineType: WAE2E.BotImagineMetadata.ImagineType;
+
+        /**
+         * Creates a new BotImagineMetadata instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns BotImagineMetadata instance
+         */
+        public static create(properties?: WAE2E.IBotImagineMetadata): WAE2E.BotImagineMetadata;
+
+        /**
+         * Encodes the specified BotImagineMetadata message. Does not implicitly {@link WAE2E.BotImagineMetadata.verify|verify} messages.
+         * @param message BotImagineMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: WAE2E.IBotImagineMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified BotImagineMetadata message, length delimited. Does not implicitly {@link WAE2E.BotImagineMetadata.verify|verify} messages.
+         * @param message BotImagineMetadata message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: WAE2E.IBotImagineMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a BotImagineMetadata message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns BotImagineMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WAE2E.BotImagineMetadata;
+
+        /**
+         * Decodes a BotImagineMetadata message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns BotImagineMetadata
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WAE2E.BotImagineMetadata;
+
+        /**
+         * Verifies a BotImagineMetadata message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a BotImagineMetadata message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns BotImagineMetadata
+         */
+        public static fromObject(object: { [k: string]: any }): WAE2E.BotImagineMetadata;
+
+        /**
+         * Creates a plain object from a BotImagineMetadata message. Also converts values to other types if specified.
+         * @param message BotImagineMetadata
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: WAE2E.BotImagineMetadata, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this BotImagineMetadata to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for BotImagineMetadata
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    namespace BotImagineMetadata {
+
+        /** ImagineType enum. */
+        enum ImagineType {
+            UNKNOWN = 0,
+            IMAGINE = 1,
+            MEMU = 2,
+            FLASH = 3,
+            EDIT = 4
+        }
+    }
+
     /** Properties of a MessageAssociation. */
     interface IMessageAssociation {
 
@@ -20351,7 +20595,8 @@ export namespace WAE2E {
             MEDIA_ALBUM = 1,
             BOT_PLUGIN = 2,
             EVENT_COVER_IMAGE = 3,
-            STATUS_POLL = 4
+            STATUS_POLL = 4,
+            HD_VIDEO_DUAL_UPLOAD = 5
         }
     }
 
@@ -22108,6 +22353,9 @@ export namespace WAE2E {
 
         /** BotMetadata capabilityMetadata */
         capabilityMetadata?: (WAE2E.IBotCapabilityMetadata|null);
+
+        /** BotMetadata imagineMetadata */
+        imagineMetadata?: (WAE2E.IBotImagineMetadata|null);
     }
 
     /** Represents a BotMetadata. */
@@ -22157,6 +22405,9 @@ export namespace WAE2E {
 
         /** BotMetadata capabilityMetadata. */
         public capabilityMetadata?: (WAE2E.IBotCapabilityMetadata|null);
+
+        /** BotMetadata imagineMetadata. */
+        public imagineMetadata?: (WAE2E.IBotImagineMetadata|null);
 
         /**
          * Creates a new BotMetadata instance using the specified properties.
@@ -33711,6 +33962,9 @@ export namespace WAWeb {
 
         /** WebMessageInfo statusMentionMessageInfo */
         statusMentionMessageInfo?: (WAWeb.IStatusMentionMessage|null);
+
+        /** WebMessageInfo isSupportAiMessage */
+        isSupportAiMessage?: (boolean|null);
     }
 
     /** Represents a WebMessageInfo. */
@@ -33895,6 +34149,9 @@ export namespace WAWeb {
 
         /** WebMessageInfo statusMentionMessageInfo. */
         public statusMentionMessageInfo?: (WAWeb.IStatusMentionMessage|null);
+
+        /** WebMessageInfo isSupportAiMessage. */
+        public isSupportAiMessage: boolean;
 
         /**
          * Creates a new WebMessageInfo instance using the specified properties.
