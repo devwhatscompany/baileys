@@ -856,7 +856,7 @@ export const makeChatsSocket = (config: SocketConfig) => {
 
 		if(!!msg.pushName) {
 			let jid = msg.key.fromMe ? authState.creds.me!.id : (msg.key.participant || msg.key.remoteJid)
-			jid = jidNormalizedUser(jid)
+			jid = jidNormalizedUser(jid!)
 
 			if(!msg.key.fromMe) {
 				ev.emit('contacts.update', [{ id: jid, notify: msg.pushName, verifiedName: msg.verifiedBizName! }])

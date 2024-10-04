@@ -375,7 +375,7 @@ export const decodeSyncdSnapshot = async(
 		areMutationsRequired
 			? (mutation) => {
 				const index = mutation.syncAction.index?.toString()
-				mutationMap[index] = mutation
+				mutationMap[index!] = mutation
 			}
 			: () => { },
 		validateMacs
@@ -443,7 +443,7 @@ export const decodePatches = async(
 			shouldMutate
 				? mutation => {
 					const index = mutation.syncAction.index?.toString()
-					mutationMap[index] = mutation
+					mutationMap[index!] = mutation
 				}
 				: (() => { }),
 			true
@@ -715,7 +715,7 @@ export const processSyncAction = (
 				{
 					id,
 					muteEndTime: action.muteAction?.muted
-						? toNumber(action.muteAction!.muteEndTimestamp!)
+						? toNumber(action.muteAction.muteEndTimestamp)
 						: null,
 					conditional: getChatUpdateConditional(id, undefined)
 				}
@@ -773,7 +773,7 @@ export const processSyncAction = (
 			]
 		})
 	} else if(action?.contactAction) {
-		ev.emit('contacts.upsert', [{ id, name: action.contactAction!.fullName! }])
+		ev.emit('contacts.upsert', [{ id, name: action.contactAction.fullName! }])
 	} else if(action?.pushNameSetting) {
 		const name = action?.pushNameSetting?.name
 		if(name && me?.name !== name) {
@@ -782,7 +782,7 @@ export const processSyncAction = (
 	} else if(action?.pinAction) {
 		ev.emit('chats.update', [{
 			id,
-			pinned: action.pinAction?.pinned ? toNumber(action.timestamp!) : null,
+			pinned: action.pinAction?.pinned ? toNumber(action.timestamp) : null,
 			conditional: getChatUpdateConditional(id, undefined)
 		}])
 	} else if(action?.unarchiveChatsSetting) {
@@ -810,13 +810,13 @@ export const processSyncAction = (
 			ev.emit('chats.delete', [id])
 		}
 	} else if(action?.labelEditAction) {
-		const { name, color, deleted, predefinedId } = action.labelEditAction!
+		const { name, color, deleted, predefinedId } = action.labelEditAction
 
 		ev.emit('labels.edit', {
 			id,
-			name: name,
-			color: color,
-			deleted: deleted,
+			name: name!,
+			color: color!,
+			deleted: deleted!,
 			predefinedId: predefinedId ? String(predefinedId) : undefined
 		})
 	} else if(action?.labelAssociationAction) {
