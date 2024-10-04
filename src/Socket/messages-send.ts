@@ -509,7 +509,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					(stanza.content as BinaryNode[]).push({
 						tag: 'device-identity',
 						attrs: { },
-						content: encodeSignedDeviceIdentity(authState.creds.account, true)
+						content: encodeSignedDeviceIdentity(authState.creds.account!, true)
 					})
 
 					logger.debug({ jid }, 'adding device identity')
@@ -675,7 +675,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 									}
 
 									content.directPath = media.directPath
-									content.url = getUrlFromDirectPath(content.directPath!)
+									content.url = getUrlFromDirectPath(content.directPath)
 
 									logger.debug({ directPath: media.directPath, key: result.key }, 'media update successful')
 								} catch(err) {

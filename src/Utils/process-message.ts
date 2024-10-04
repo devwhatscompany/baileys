@@ -94,10 +94,10 @@ export const getChatId = ({ remoteJid, participant, fromMe }: proto.WAProtocol.I
 		&& !isJidStatusBroadcast(remoteJid!)
 		&& !fromMe
 	) {
-		return participant
+		return participant!
 	}
 
-	return remoteJid
+	return remoteJid!
 }
 
 type PollContext = {
