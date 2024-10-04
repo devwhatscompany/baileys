@@ -327,6 +327,7 @@ export const getHttpStream = async(url: string | URL, options: AxiosRequestConfi
 	// const { default: axios } = await import('axios')
 	console.log('TO AQUI getHttpStream')
 	const fetched = await axios.get(url.toString(), { ...options, responseType: 'stream' })
+	console.log(fetched)
 	return fetched.data as Readable
 }
 
