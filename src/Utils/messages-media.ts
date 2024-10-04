@@ -325,8 +325,7 @@ export async function generateThumbnail(
 
 export const getHttpStream = async(url: string | URL, options: AxiosRequestConfig & { isStream?: true } = {}) => {
 	const { default: axios } = await import('axios')
-	const fetched = await axios.get(url.toString(), { ...options, responseType: 'arraybuffer' })
-	console.log(fetched)
+	const fetched = await axios.get(url.toString(), { ...options, responseType: 'stream' })
 	return fetched.data as Readable
 }
 
@@ -517,6 +516,8 @@ export const downloadEncryptedContent = async(
 			maxContentLength: Infinity,
 		}
 	)
+
+	console.log('AQUUUUIIIII', fetched)
 
 	let remainingBytes = Buffer.from([])
 
