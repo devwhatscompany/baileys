@@ -326,6 +326,7 @@ export async function generateThumbnail(
 export const getHttpStream = async(url: string | URL, options: AxiosRequestConfig & { isStream?: true } = {}) => {
 	const { default: axios } = await import('axios')
 	const fetched = await axios.get(url.toString(), { ...options, responseType: 'arraybuffer' })
+	console.log(fetched)
 	return fetched.data as Readable
 }
 
