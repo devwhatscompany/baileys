@@ -180,8 +180,8 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 							tag: 'retry',
 							attrs: {
 								count: retryCount.toString(),
-								id: node.attrs.id,
-								t: node.attrs.t,
+								id: node.attrs.id.toString(),
+								t: node.attrs.t.toString(),
 								v: '1'
 							}
 						},
@@ -714,12 +714,6 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 	}
 
 	const handleMessage = async(node: BinaryNode) => {
-		if(shouldIgnoreJid(node.attrs.from) && node.attrs.from !== '@s.whatsapp.net') {
-			logger.debug({ key: node.attrs.key }, 'ignored message')
-			await sendMessageAck(node)
-			return
-		}
-
 		let response: string | undefined
 
 		if(getBinaryNodeChild(node, 'unavailable') && !getBinaryNodeChild(node, 'enc')) {

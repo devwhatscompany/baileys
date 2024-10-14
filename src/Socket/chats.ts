@@ -746,37 +746,6 @@ export const makeChatsSocket = (config: SocketConfig) => {
 		}
 	}
 
-	/** sending abt props may fix QR scan fail if server expects */
-	const fetchAbt = async() => {
-		const abtNode = await query({
-			tag: 'iq',
-			attrs: {
-				to: S_WHATSAPP_NET,
-				xmlns: 'abt',
-				type: 'get',
-			},
-			content: [
-				{ tag: 'props', attrs: { protocol: '1' } }
-			]
-		})
-
-		const propsNode = getBinaryNodeChild(abtNode, 'props')
-
-		let props: { [_: string]: string } = {}
-		if(propsNode) {
-			if(propsNode.attrs?.hash) { // on some clients, the hash is returning as undefined
-				authState.creds.lastPropHash = propsNode?.attrs?.hash
-				ev.emit('creds.update', authState.creds)
-			}
-
-			props = reduceBinaryNodeToDictionary(propsNode, 'prop')
-		}
-
-		logger.debug('fetched abt')
-
-		return props
-	}
-
 	/** sending non-abt props may fix QR scan fail if server expects */
 	const fetchProps = async() => {
 		const resultNode = await query({
@@ -796,8 +765,14 @@ export const makeChatsSocket = (config: SocketConfig) => {
 
 		const propsNode = getBinaryNodeChild(resultNode, 'props')
 
+
 		let props: { [_: string]: string } = {}
 		if(propsNode) {
+			if(propsNode.attrs?.hash) { // on some clients, the hash is returning as undefined
+				authState.creds.lastPropHash = propsNode?.attrs?.hash
+				ev.emit('creds.update', authState.creds)
+			}
+
 			props = reduceBinaryNodeToDictionary(propsNode, 'prop')
 		}
 
@@ -880,7 +855,6 @@ export const makeChatsSocket = (config: SocketConfig) => {
 	 * */
 	const executeInitQueries = async() => {
 		await Promise.all([
-			fetchAbt(),
 			fetchProps(),
 			fetchBlocklist(),
 			fetchPrivacySettings(),
