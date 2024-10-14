@@ -50,7 +50,8 @@ export const PROCESSABLE_HISTORY_TYPES = [
 	proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.INITIAL_BOOTSTRAP,
 	proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.PUSH_NAME,
 	proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.RECENT,
-	proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.FULL
+	proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.FULL,
+	proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.ON_DEMAND,
 ]
 
 export const DEFAULT_CONNECTION_CONFIG: SocketConfig = {

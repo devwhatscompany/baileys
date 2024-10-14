@@ -132,8 +132,14 @@ export default (
 			chats: newChats,
 			contacts: newContacts,
 			messages: newMessages,
-			isLatest
+			isLatest,
+			syncType
 		}) => {
+			if(syncType === proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.ON_DEMAND) {
+				return // FOR NOW,
+				//TODO: HANDLE
+			}
+
 			if(isLatest) {
 				chats.clear()
 
@@ -241,16 +247,14 @@ export default (
 					const list = assertMessageList(jid)
 					list.upsert(msg, 'append')
 
-					if(type === 'notify') {
-						if(!chats.get(jid)) {
-							ev.emit('chats.upsert', [
-								{
-									id: jid,
-									conversationTimestamp: toNumber(msg.messageTimestamp),
-									unreadCount: 1
-								}
-							])
-						}
+					if(type === 'notify' && !chats.get(jid)) {
+						ev.emit('chats.upsert', [
+							{
+								id: jid,
+								conversationTimestamp: toNumber(msg.messageTimestamp),
+								unreadCount: 1
+							}
+						])
 					}
 				}
 

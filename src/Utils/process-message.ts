@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 import type { Logger } from 'pino'
 import proto from '../../WAProto'
-import { AuthenticationCreds, BaileysEventEmitter, Chat, GroupMetadata, ParticipantAction, SignalKeyStoreWithTransaction, SocketConfig, WAMessageStubType } from '../Types'
+import { AuthenticationCreds, BaileysEventEmitter, CacheStore, Chat, GroupMetadata, ParticipantAction, SignalKeyStoreWithTransaction, SocketConfig, WAMessageStubType } from '../Types'
 import { getContentType, normalizeMessageContent } from '../Utils/messages'
 import { areJidsSameUser, isJidBroadcast, isJidStatusBroadcast, jidNormalizedUser } from '../WABinary'
 import { aesDecryptGCM, hmacSign } from './crypto'
@@ -10,6 +10,7 @@ import { downloadAndProcessHistorySyncNotification } from './history'
 
 type ProcessMessageContext = {
 	shouldProcessHistoryMsg: boolean
+	placeholderResendCache?: CacheStore
 	creds: AuthenticationCreds
 	keyStore: SignalKeyStoreWithTransaction
 	ev: BaileysEventEmitter
@@ -152,6 +153,7 @@ const processMessage = async(
 	message: proto.WAWeb.IWebMessageInfo,
 	{
 		shouldProcessHistoryMsg,
+		placeholderResendCache,
 		ev,
 		creds,
 		keyStore,
@@ -202,19 +204,27 @@ const processMessage = async(
 			}, 'got history notification')
 
 			if(process) {
-				ev.emit('creds.update', {
-					processedHistoryMessages: [
-						...(creds.processedHistoryMessages || []),
-						{ key: message.key, messageTimestamp: message.messageTimestamp }
-					]
-				})
+				if(histNotification.syncType !== proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.ON_DEMAND) {
+					ev.emit('creds.update', {
+						processedHistoryMessages: [
+							...(creds.processedHistoryMessages || []),
+							{ key: message.key, messageTimestamp: message.messageTimestamp }
+						]
+					})
+				}
 
 				const data = await downloadAndProcessHistorySyncNotification(
 					histNotification,
 					options
 				)
 
-				ev.emit('messaging-history.set', { ...data, isLatest })
+				ev.emit('messaging-history.set', {
+					...data,
+					isLatest:
+						histNotification.syncType !== proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.ON_DEMAND
+							? isLatest
+							: undefined
+				})
 			}
 
 			break
@@ -267,14 +277,22 @@ const processMessage = async(
 		case proto.WAE2E.Message.ProtocolMessage.Type.PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE:
 			const response = protocolMsg.peerDataOperationRequestResponseMessage!
 			if(response) {
+				placeholderResendCache?.del(response.stanzaId!)
+				// TODO: IMPLEMENT HISTORY SYNC ETC (sticker uploads etc.).
 				const { peerDataOperationResult } = response
 				for(const result of peerDataOperationResult!) {
 					const { placeholderMessageResendResponse: retryResponse } = result
+					//eslint-disable-next-line max-depth
 					if(retryResponse) {
 						const webMessageInfo = proto.WAWeb.WebMessageInfo.decode(retryResponse.webMessageInfoBytes!)
-						ev.emit('messages.update', [
-							{ key: webMessageInfo.key, update: { message: webMessageInfo.message } }
-						])
+						// wait till another upsert event is available, don't want it to be part of the PDO response message
+						setTimeout(() => {
+							ev.emit('messages.upsert', {
+								messages: [webMessageInfo],
+								type: 'notify',
+								requestId: response.stanzaId!
+							})
+						}, 500)
 					}
 				}
 			}
@@ -288,7 +306,7 @@ const processMessage = async(
 		}
 		ev.emit('messages.reaction', [{
 			reaction,
-			key: content.reactionMessage.key!,
+			key: content.reactionMessage?.key!,
 		}])
 	} else if(message.messageStubType) {
 		const jid = message.key.remoteJid!

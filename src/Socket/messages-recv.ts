@@ -68,6 +68,7 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 		relayMessage,
 		sendReceipt,
 		uploadPreKeys,
+		sendPeerDataOperationMessage,
 	} = sock
 
 	/** this mutex ensures that each retryRequest will wait for the previous one to finish */
@@ -157,11 +158,11 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 
 		const { account, signedPreKey, signedIdentityKey: identityKey } = authState.creds
 
-		// if(retryCount === 1) {
-		// 	//request a resend via phone
-		// 	const msgId = await requestPlaceholderResend(msgKey)
-		// 	logger.debug(`sendRetryRequest: requested placeholder resend for message ${msgId}`)
-		// }
+		if(retryCount === 1) {
+			//request a resend via phone
+			const msgId = await requestPlaceholderResend(msgKey)
+			logger.debug(`sendRetryRequest: requested placeholder resend for message ${msgId}`)
+		}
 
 		const deviceIdentity = encodeSignedDeviceIdentity(account!, true)
 		await authState.keys.transaction(
@@ -625,7 +626,7 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 								!isNodeFromMe
 							)
 						) {
-							if(isJidGroup(remoteJid)) {
+							if(isJidGroup(remoteJid) || isJidStatusBroadcast(remoteJid)) {
 								if(attrs.participant) {
 									const updateKey: keyof MessageUserReceipt = status === proto.WAWeb.WebMessageInfo.Status.DELIVERY_ACK ? 'receiptTimestamp' : 'readTimestamp'
 									ev.emit(
@@ -718,23 +719,22 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			return
 		}
 
-		// let response: string | undefined
+		let response: string | undefined
 
+		if(getBinaryNodeChild(node, 'unavailable') && !getBinaryNodeChild(node, 'enc')) {
+			await sendMessageAck(node)
+			const { key } = decodeMessageNode(node, authState.creds.me!.id, authState.creds.me!.lid || '').fullMessage
+			response = await requestPlaceholderResend(key)
+			if(response === 'RESOLVED') {
+				return
+			}
 
-		// if(getBinaryNodeChild(node, 'unavailable') && !getBinaryNodeChild(node, 'enc')) {
-		// 	await sendMessageAck(node)
-		// 	const { key } = decodeMessageNode(node, authState.creds.me!.id, authState.creds.me!.lid || '').fullMessage
-		// 	response = await requestPlaceholderResend(key)
-		// 	if(response === 'RESOLVED') {
-		// 		return
-		// 	}
-
-		// 	logger.debug('received unavailable message, acked and requested resend from phone')
-		// } else {
-		// 	if(placeholderResendCache.get(node.attrs.id)) {
-		// 		placeholderResendCache.del(node.attrs.id)
-		// 	}
-		// }
+			logger.debug('received unavailable message, acked and requested resend from phone')
+		} else {
+			if(placeholderResendCache.get(node.attrs.id)) {
+				placeholderResendCache.del(node.attrs.id)
+			}
+		}
 
 		const { fullMessage: msg, category, author, decrypt } = decryptMessageNode(
 			node,
@@ -744,9 +744,9 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			logger,
 		)
 
-		// if(response && msg?.messageStubParameters?.[0] === NO_MESSAGE_FOUND_ERROR_TEXT) {
-		// 	msg.messageStubParameters = [NO_MESSAGE_FOUND_ERROR_TEXT, response]
-		// }
+		if(response && msg?.messageStubParameters?.[0] === NO_MESSAGE_FOUND_ERROR_TEXT) {
+			msg.messageStubParameters = [NO_MESSAGE_FOUND_ERROR_TEXT, response]
+		}
 
 		if(msg.message?.protocolMessage?.type === proto.WAE2E.Message.ProtocolMessage.Type.SHARE_PHONE_NUMBER && node.attrs.sender_pn) {
 			ev.emit('chats.phoneNumberShare', { lid: node.attrs.from, jid: node.attrs.sender_pn })
@@ -767,6 +767,10 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 						retryMutex.mutex(
 							async() => {
 								if(ws.isOpen) {
+									if(getBinaryNodeChild(node, 'unavailable')) {
+										return
+									}
+
 									const encNode = getBinaryNodeChild(node, 'enc')
 									await sendRetryRequest(node, !encNode)
 									if(retryRequestDelayMs) {
@@ -810,6 +814,66 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			),
 			sendMessageAck(node)
 		])
+	}
+
+	const fetchMessageHistory = async(
+		count: number,
+		oldestMsgKey: WAMessageKey,
+		oldestMsgTimestamp: number | Long
+	): Promise<string> => {
+		if(!authState.creds.me?.id) {
+			throw new Boom('Not authenticated')
+		}
+
+		const pdoMessage = {
+			historySyncOnDemandRequest: {
+				chatJid: oldestMsgKey.remoteJid,
+				oldestMsgFromMe: oldestMsgKey.fromMe,
+				oldestMsgId: oldestMsgKey.id,
+				oldestMsgTimestampMs: oldestMsgTimestamp,
+				onDemandMsgCount: count
+			},
+			peerDataOperationRequestType: proto.WAE2E.Message.PeerDataOperationRequestType.HISTORY_SYNC_ON_DEMAND
+		}
+
+		return sendPeerDataOperationMessage(pdoMessage)
+	}
+
+	const requestPlaceholderResend = async(messageKey: WAMessageKey): Promise<string | undefined> => {
+		if(!authState.creds.me?.id) {
+			throw new Boom('Not authenticated')
+		}
+
+		if(placeholderResendCache.get(messageKey?.id!)) {
+			logger.debug('already requested resend', { messageKey })
+			return
+		} else {
+			placeholderResendCache.set(messageKey?.id!, true)
+		}
+
+		await delay(5000)
+
+		if(!placeholderResendCache.get(messageKey?.id!)) {
+			logger.debug('message received while resend requested', { messageKey })
+			return 'RESOLVED'
+		}
+
+		const pdoMessage = {
+			placeholderMessageResendRequest: [{
+				messageKey
+			}],
+			peerDataOperationRequestType: proto.WAE2E.Message.PeerDataOperationRequestType.PLACEHOLDER_MESSAGE_RESEND
+		}
+
+		// REVISAR
+		setTimeout(() => {
+			if(placeholderResendCache.get(messageKey?.id!)) {
+				logger.debug('PDO message without response after 15 seconds. Phone possibly offline', { messageKey })
+				placeholderResendCache.del(messageKey?.id!)
+			}
+		}, 15_000)
+
+		return sendPeerDataOperationMessage(pdoMessage)
 	}
 
 	const handleCall = async(node: BinaryNode) => {
@@ -964,6 +1028,8 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 		...sock,
 		sendMessageAck,
 		sendRetryRequest,
-		rejectCall
+		rejectCall,
+		fetchMessageHistory,
+		requestPlaceholderResend,
 	}
 }

@@ -20,7 +20,10 @@ export type BaileysEventMap = {
         chats: Chat[]
         contacts: Contact[]
         messages: WAMessage[]
-        isLatest: boolean
+        isLatest?: boolean
+        progress?: number | null
+        syncType?: proto.WAE2E.Message.HistorySyncNotification.HistorySyncType
+        peerDataRequestSessionId?: string | null
     }
     /** upsert chats */
     'chats.upsert': Chat[]
@@ -42,7 +45,7 @@ export type BaileysEventMap = {
      * add/update the given messages. If they were received while the connection was online,
      * the update will have type: "notify"
      *  */
-    'messages.upsert': { messages: WAMessage[], type: MessageUpsertType }
+    'messages.upsert': { messages: WAMessage[], type: MessageUpsertType, requestId?: string }
     /** message was reacted to. If reaction was removed -- then "reaction.text" will be falsey */
     'messages.reaction': { key: WAMessageKey, reaction: proto.WAWeb.IReaction }[]
 
