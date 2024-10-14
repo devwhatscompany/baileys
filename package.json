@@ -78,7 +78,7 @@
     "ts-jest": "^27.0.3",
     "ts-node": "^10.8.1",
     "typedoc": "^0.24.7",
-    "typescript": "^4.6.4"
+    "typescript": "^5.7.0-dev.20241014"
   },
   "peerDependencies": {
     "jimp": "^0.16.1",
