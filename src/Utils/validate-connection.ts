@@ -21,9 +21,24 @@ const getUserAgent = (config: SocketConfig): proto.WAWa6.ClientPayload.IUserAgen
 		device: 'Desktop',
 		osBuildNumber: '0.1',
 		localeLanguageIso6391: 'en',
-		localeCountryIso31661Alpha2: 'US'
+		localeCountryIso31661Alpha2: 'US',
 	}
 }
+
+const PLATFORM_MAP = {
+	'Mac OS': proto.WAWa6.ClientPayload.WebInfo.WebSubPlatform.DARWIN,
+	'Windows': proto.WAWa6.ClientPayload.WebInfo.WebSubPlatform.WIN32
+}
+
+const getWebInfo = (config: SocketConfig): proto.WAWa6.ClientPayload.IWebInfo => {
+	let webSubPlatform = proto.WAWa6.ClientPayload.WebInfo.WebSubPlatform.WEB_BROWSER
+	if(config.syncFullHistory && PLATFORM_MAP[config.browser[0]]) {
+		webSubPlatform = PLATFORM_MAP[config.browser[0]]
+	}
+
+	return { webSubPlatform }
+}
+
 
 const getClientPayload = (config: SocketConfig) => {
 	const payload: proto.WAWa6.IClientPayload = {
@@ -31,6 +46,8 @@ const getClientPayload = (config: SocketConfig) => {
 		connectReason: proto.WAWa6.ClientPayload.ConnectReason.USER_ACTIVATED,
 		userAgent: getUserAgent(config),
 	}
+
+	payload.webInfo = getWebInfo(config)
 
 	return payload
 }
