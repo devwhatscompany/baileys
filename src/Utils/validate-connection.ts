@@ -9,30 +9,18 @@ import { encodeBigEndian } from './generics'
 import { createSignalIdentity } from './signal'
 
 const getUserAgent = (config: SocketConfig): proto.WAWa6.ClientPayload.IUserAgent => {
-	const osVersion = config.mobile ? '15.3.1' : '0.1'
-	const version = config.mobile ? [2, 22, 24] : config.version
-	const device = config.mobile ? 'iPhone_7' : 'Desktop'
-	const manufacturer = config.mobile ? 'Apple' : ''
-	const platform = config.mobile ? proto.WAWa6.ClientPayload.UserAgent.Platform.IOS : proto.WAWa6.ClientPayload.UserAgent.Platform.MACOS
-	const phoneId = config.mobile ? { phoneId: config.auth.creds.phoneId } : {}
-
 	return {
 		appVersion: {
-			primary: version[0],
-			secondary: version[1],
-			tertiary: version[2],
+			primary: config.version[0],
+			secondary: config.version[1],
+			tertiary: config.version[2],
 		},
-		platform,
+		platform: proto.WAWa6.ClientPayload.UserAgent.Platform.WEB,
 		releaseChannel: proto.WAWa6.ClientPayload.UserAgent.ReleaseChannel.RELEASE,
-		mcc: config.auth.creds.registration?.phoneNumberMobileCountryCode || '000',
-		mnc: config.auth.creds.registration?.phoneNumberMobileNetworkCode || '000',
-		osVersion: osVersion,
-		manufacturer,
-		device,
-		osBuildNumber: osVersion,
+		osVersion: '0.1',
+		device: 'Desktop',
+		osBuildNumber: '0.1',
 		localeLanguageIso6391: 'en',
-		localeCountryIso31661Alpha2: 'US',
-		...phoneId
 	}
 }
 
@@ -44,28 +32,6 @@ const getClientPayload = (config: SocketConfig) => {
 	}
 
 	return payload
-}
-
-export const generateMobileNode = (config: SocketConfig): proto.WAWa6.IClientPayload => {
-	if(!config.auth.creds) {
-		throw new Boom('No registration data found', { data: config })
-	}
-
-	const payload: proto.WAWa6.IClientPayload = {
-		...getClientPayload(config),
-		sessionId: Math.floor(Math.random() * 999999999 + 1),
-		shortConnect: true,
-		connectAttemptCount: 0,
-		device: 0,
-		dnsSource: {
-			appCached: false,
-			dnsMethod: proto.WAWa6.ClientPayload.DNSSource.DNSResolutionMethod.SYSTEM,
-		},
-		passive: false, // XMPP heartbeat setting (false: server actively pings) (true: client actively pings)
-		pushName: 'test',
-		username: Number(`${config.auth.creds.registration.phoneNumberCountryCode}${config.auth.creds.registration.phoneNumberNationalNumber}`),
-	}
-	return proto.WAWa6.ClientPayload.fromObject(payload)
 }
 
 export const generateLoginNode = (userJid: string, config: SocketConfig): proto.WAWa6.IClientPayload => {
