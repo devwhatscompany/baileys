@@ -21,6 +21,7 @@ const getUserAgent = (config: SocketConfig): proto.WAWa6.ClientPayload.IUserAgen
 		device: 'Desktop',
 		osBuildNumber: '0.1',
 		localeLanguageIso6391: 'en',
+		localeCountryIso31661Alpha2: 'US'
 	}
 }
 
