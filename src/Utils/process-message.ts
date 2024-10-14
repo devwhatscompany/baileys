@@ -223,7 +223,8 @@ const processMessage = async(
 					isLatest:
 						histNotification.syncType !== proto.WAE2E.Message.HistorySyncNotification.HistorySyncType.ON_DEMAND
 							? isLatest
-							: undefined
+							: undefined,
+					peerDataRequestSessionId: histNotification.peerDataRequestSessionId
 				})
 			}
 

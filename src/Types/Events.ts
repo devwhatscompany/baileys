@@ -72,6 +72,9 @@ export type BufferedEventData = {
         messages: { [uqId: string]: WAMessage }
         empty: boolean
         isLatest: boolean
+        progress?: number | null
+        syncType?: proto.WAE2E.Message.HistorySyncNotification.HistorySyncType
+        peerDataRequestSessionId?: string
     }
     chatUpserts: { [jid: string]: Chat }
     chatUpdates: { [jid: string]: ChatUpdate }

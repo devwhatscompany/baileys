@@ -230,6 +230,9 @@ function append<E extends BufferableEvent>(
 		}
 
 		data.historySets.empty = false
+		data.historySets.syncType = eventData.syncType
+		data.historySets.progress = eventData.progress
+		data.historySets.peerDataRequestSessionId = eventData.peerDataRequestSessionId
 		data.historySets.isLatest = eventData.isLatest || data.historySets.isLatest
 
 		break

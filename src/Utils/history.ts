@@ -93,6 +93,8 @@ export const processHistoryMessage = (item: proto.WAHistorySync.IHistorySync) =>
 		chats,
 		contacts,
 		messages,
+		syncType: item.syncType,
+		progress: item.progress
 	}
 }
 
